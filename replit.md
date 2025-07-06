@@ -116,6 +116,7 @@ This is a comprehensive stock analysis dashboard built with Streamlit that provi
 - July 06, 2025. Enhanced mobile responsiveness with tabbed layout for financial metrics
 - July 06, 2025. Added beginner-friendly explanations and improved recommendation system
 - July 06, 2025. Implemented stock suggestions engine with 500+ North American stocks
+- July 06, 2025. Added financial news integration with multiple RSS feeds and fallback sources
 
 ## Recent Updates
 
@@ -139,6 +140,14 @@ This is a comprehensive stock analysis dashboard built with Streamlit that provi
 - Color-coded risk indicators and recommendation clarity
 - Step-by-step guidance for new investors
 - Enhanced disclaimer and educational warnings
+
+### Financial News Integration (July 06, 2025)
+- Integrated RSS feeds from Yahoo Finance, Google News, and Reuters
+- Stock-specific news fetching with company name matching
+- Fallback to general market news when stock-specific news unavailable
+- Mobile-friendly expandable news cards with article summaries
+- Direct links to full articles for detailed reading
+- Graceful error handling for news service unavailability
 
 ## User Preferences
 

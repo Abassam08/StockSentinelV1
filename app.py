@@ -14,6 +14,7 @@ from utils.financial_metrics import FinancialMetrics
 from utils.recommendation_engine import RecommendationEngine
 from utils.currency_converter import CurrencyConverter
 from utils.stock_suggestions import StockSuggestions
+from utils.news_fetcher import NewsAPI
 
 # Page configuration
 st.set_page_config(
@@ -30,6 +31,8 @@ if 'selected_symbol' not in st.session_state:
     st.session_state.selected_symbol = ""
 if 'suggestions' not in st.session_state:
     st.session_state.suggestions = StockSuggestions()
+if 'news_api' not in st.session_state:
+    st.session_state.news_api = NewsAPI()
 
 def validate_stock_symbol(symbol):
     """Validate and format stock symbol for North American markets"""
@@ -586,6 +589,59 @@ def main():
                     
                     # Investment disclaimer
                     st.error("⚠️ **Important Disclaimer:** This analysis is for educational purposes only and should NOT be considered as financial advice. Always do your own research and consult with a qualified financial advisor before making investment decisions. Past performance does not guarantee future results.")
+                    
+                    # News section
+                    st.subheader("📰 Latest News & Updates")
+                    
+                    try:
+                        # Get news for the specific stock
+                        with st.spinner("Fetching latest news..."):
+                            news_articles = st.session_state.news_api.get_stock_news(
+                                validated_symbol, 
+                                company_name, 
+                                max_articles=6
+                            )
+                        
+                        if news_articles:
+                            formatted_news = st.session_state.news_api.format_news_for_display(news_articles)
+                            
+                            # Display news in a mobile-friendly format
+                            for i, article in enumerate(formatted_news):
+                                with st.expander(f"📄 {article['title'][:80]}..." if len(article['title']) > 80 else f"📄 {article['title']}", expanded=i<2):
+                                    # Article metadata
+                                    col1, col2 = st.columns(2)
+                                    with col1:
+                                        st.caption(f"**Source:** {article['source']}")
+                                    with col2:
+                                        st.caption(f"**Published:** {article['time_ago']}")
+                                    
+                                    # Article summary
+                                    st.write(article['summary'])
+                                    
+                                    # Read more link
+                                    st.markdown(f"[📖 Read Full Article]({article['link']})")
+                        else:
+                            st.info("📰 No recent news found for this stock. This might be normal for smaller companies or during quiet periods.")
+                            
+                            # Show general market news as fallback
+                            st.markdown("**📈 General Market News:**")
+                            try:
+                                market_news = st.session_state.news_api.get_market_news(max_articles=3)
+                                if market_news:
+                                    formatted_market_news = st.session_state.news_api.format_news_for_display(market_news)
+                                    for article in formatted_market_news:
+                                        with st.expander(f"📄 {article['title'][:60]}..." if len(article['title']) > 60 else f"📄 {article['title']}"):
+                                            st.caption(f"**Source:** {article['source']} | **Published:** {article['time_ago']}")
+                                            st.write(article['summary'])
+                                            st.markdown(f"[📖 Read Full Article]({article['link']})")
+                                else:
+                                    st.info("Unable to fetch market news at this time.")
+                            except Exception as e:
+                                st.info("Market news temporarily unavailable.")
+                    
+                    except Exception as e:
+                        st.warning("📰 News service temporarily unavailable. Please try again later.")
+                        st.info("💡 **Tip:** You can find financial news for this stock on Yahoo Finance, Google Finance, or other financial news websites.")
                     
                     # Price chart
                     st.subheader("📈 Price Chart & Volume")
