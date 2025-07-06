@@ -240,8 +240,6 @@ def main():
                             use_container_width=True
                         ):
                             st.session_state.selected_symbol = suggestion['symbol']
-                            # Clear the search query to show the selected symbol
-                            st.session_state.search_input = ""
                             # Set analyze flag to trigger automatic analysis
                             st.session_state.auto_analyze = True
                             st.rerun()
@@ -259,8 +257,6 @@ def main():
                     use_container_width=True
                 ):
                     st.session_state.selected_symbol = stock['symbol']
-                    # Clear the search query to show the selected symbol
-                    st.session_state.search_input = ""
                     # Set analyze flag to trigger automatic analysis
                     st.session_state.auto_analyze = True
                     st.rerun()
@@ -276,8 +272,6 @@ def main():
                     use_container_width=True
                 ):
                     st.session_state.selected_symbol = stock['symbol']
-                    # Clear the search query to show the selected symbol
-                    st.session_state.search_input = ""
                     # Set analyze flag to trigger automatic analysis
                     st.session_state.auto_analyze = True
                     st.rerun()
