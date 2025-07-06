@@ -33,6 +33,8 @@ if 'suggestions' not in st.session_state:
     st.session_state.suggestions = StockSuggestions()
 if 'news_api' not in st.session_state:
     st.session_state.news_api = NewsAPI()
+if 'auto_analyze' not in st.session_state:
+    st.session_state.auto_analyze = False
 
 def validate_stock_symbol(symbol):
     """Validate and format stock symbol for North American markets"""
@@ -238,6 +240,10 @@ def main():
                             use_container_width=True
                         ):
                             st.session_state.selected_symbol = suggestion['symbol']
+                            # Clear the search query to show the selected symbol
+                            st.session_state.search_input = ""
+                            # Set analyze flag to trigger automatic analysis
+                            st.session_state.auto_analyze = True
                             st.rerun()
         
         # Show popular stocks if no search
@@ -253,6 +259,10 @@ def main():
                     use_container_width=True
                 ):
                     st.session_state.selected_symbol = stock['symbol']
+                    # Clear the search query to show the selected symbol
+                    st.session_state.search_input = ""
+                    # Set analyze flag to trigger automatic analysis
+                    st.session_state.auto_analyze = True
                     st.rerun()
             
             st.markdown("**🇺🇸 Popular US Stocks:**")
@@ -266,6 +276,10 @@ def main():
                     use_container_width=True
                 ):
                     st.session_state.selected_symbol = stock['symbol']
+                    # Clear the search query to show the selected symbol
+                    st.session_state.search_input = ""
+                    # Set analyze flag to trigger automatic analysis
+                    st.session_state.auto_analyze = True
                     st.rerun()
         
         # Manual symbol input (fallback)
@@ -319,11 +333,20 @@ def main():
             """)
     
     # Main content area
-    if analyze_button and symbol_input:
-        st.session_state.selected_symbol = symbol_input
+    # Handle both manual analysis and automatic analysis from suggestions
+    should_analyze = (analyze_button and symbol_input) or st.session_state.auto_analyze
+    
+    if should_analyze and (symbol_input or st.session_state.selected_symbol):
+        # Use the symbol input or selected symbol from suggestions
+        analysis_symbol = symbol_input if symbol_input else st.session_state.selected_symbol
+        st.session_state.selected_symbol = analysis_symbol
+        
+        # Reset auto_analyze flag
+        if st.session_state.auto_analyze:
+            st.session_state.auto_analyze = False
         
         # Validate symbol
-        validated_symbol, symbol_info = validate_stock_symbol(symbol_input)
+        validated_symbol, symbol_info = validate_stock_symbol(analysis_symbol)
         
         if validated_symbol:
             with st.spinner(f"📊 Analyzing {validated_symbol}..."):
@@ -714,7 +737,7 @@ def main():
                     st.error(f"❌ Error analyzing stock: {str(e)}")
                     st.info("💡 **Troubleshooting:**\n- Check your internet connection\n- Verify the stock symbol is correct\n- Try a different timeframe\n- Some stocks may have limited data availability")
     
-    elif not symbol_input and analyze_button:
+    elif not symbol_input and analyze_button and not st.session_state.selected_symbol:
         st.warning("Please enter a stock symbol to analyze")
     
     # Footer
