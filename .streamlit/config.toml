@@ -9,3 +9,9 @@ backgroundColor = "#0e1117"
 secondaryBackgroundColor = "#262730"
 textColor = "#fafafa"
 base = "dark"
+
+[client]
+showErrorDetails = false
+
+[browser]
+gatherUsageStats = false

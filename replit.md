@@ -112,7 +112,37 @@ This is a comprehensive stock analysis dashboard built with Streamlit that provi
 ## Changelog
 
 - July 06, 2025. Initial setup
+- July 06, 2025. Added autocomplete stock search functionality with Canadian stock preference
+- July 06, 2025. Enhanced mobile responsiveness with tabbed layout for financial metrics
+- July 06, 2025. Added beginner-friendly explanations and improved recommendation system
+- July 06, 2025. Implemented stock suggestions engine with 500+ North American stocks
+
+## Recent Updates
+
+### Stock Search & Autocomplete (July 06, 2025)
+- Added intelligent stock symbol search with autocomplete suggestions
+- Prioritizes Canadian stocks (TSX, TSX-V) in search results
+- Includes 500+ pre-loaded stock symbols with company names
+- Interactive buttons for popular Canadian and US stocks
+- Real-time search filtering as user types
+
+### Mobile-Friendly Enhancements (July 06, 2025)
+- Reorganized financial metrics into tabs (Valuation, Performance, Financial Health)
+- Responsive column layouts for better mobile viewing
+- Added contextual help text for all financial terms
+- Simplified recommendation display with clear action guidance
+- Enhanced error handling and user feedback
+
+### Beginner-Friendly Features (July 06, 2025)
+- Added comprehensive help section with investment guidance
+- Simplified financial explanations with practical advice
+- Color-coded risk indicators and recommendation clarity
+- Step-by-step guidance for new investors
+- Enhanced disclaimer and educational warnings
 
 ## User Preferences
 
 Preferred communication style: Simple, everyday language.
+Stock focus: Canadian stocks prioritized over US stocks.
+Target audience: Beginner and amateur investors.
+Mobile compatibility: Essential for user accessibility.
